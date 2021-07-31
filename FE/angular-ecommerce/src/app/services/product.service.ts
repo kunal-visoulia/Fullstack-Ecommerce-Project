@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 })
 export class ProductService {
 
-  private baseUrl = 'http://localhost:8080/api/products';
+  private baseUrl = 'http://localhost:8080/api/products'; // /api/products?size=100' set page size to 100 items; by default Spring Data Rest returns only the first page of 20 items
 
   constructor(private httpClient: HttpClient) { }
 
