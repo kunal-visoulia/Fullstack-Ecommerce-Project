@@ -4,7 +4,7 @@ Used Spring Data JPA(Persist data in SQL stores with Java Persistence API using 
 The dialect specifies the type of database used in hibernate so that hibernate generate appropriate type of SQL statements. For connecting any hibernate application with the database, it is required to provide the configuration of SQL dialect.
 
 Release 1.0.0<br/>
-Make REST APIs Read Only. So onlt GET requests are allowed.<br/>
+Make REST APIs Read Only. So onlt GET requests are allowe else you will get 405 Method Not Allowed.<br/>
 Possible Solutions:<br>
 1. option 1: Don't use Spring Rest
     1.1 Manually create your own @RestController
