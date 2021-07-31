@@ -28,5 +28,9 @@ Possible Solutions:<br>
   }
 }
     ```
+
+
 2. Option 2: Use Spring Data REST
     2.1 Configure to disbale required HTTP methods
+
+
