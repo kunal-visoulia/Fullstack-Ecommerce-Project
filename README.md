@@ -39,4 +39,41 @@ If you don't want the query bbuilt by spring, you can use @Query annotation to b
 
 In computer software, a data access object (DAO) is a pattern that provides an abstract interface to some type of database or other persistence mechanism. By mapping application calls to the persistence layer, the DAO provides some specific data operations without exposing details of the database.The Data Access Object (DAO) pattern is a structural pattern that allows us to isolate the application/business layer from the persistence layer (usually a relational database, but it could be any other persistence mechanism) using an abstract API.The functionality of this API is to hide from the application all the complexities involved in performing CRUD operations in the underlying storage mechanism. This permits both layers to evolve separately without knowing anything about each other.
 
+By default, Spring Data REST does not expose entity ids. We need entity ids. We need enity  ids for: Get a list of product categories by id, master/detail view to get a given product by id. http://localhost:8080/api/product-category<br>
+{
+  "_embedded" : {
+    "productCategory" : [ {
+      "categoryName" : "Books",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/product-category/1" //hateos link
+        },
+        "productCategory" : {
+          "href" : "http://localhost:8080/api/product-category/1"
+        },
+        "products" : {
+          "href" : "http://localhost:8080/api/product-category/1/products"
+        }
+      }
+    },...
+}<br>
+There is no entity id at the productcategory level,but, enitity id is embedded in the hateos links. But no easy access, Requires parsing url string. Not ideal. I want the api response to include categoryid and Category Name at category Level only for dyanimc listing of categories in FE.<br>
+{
+  "_embedded" : {
+    "productCategory" : [ {
+      "id" : 1, // here
+      "categoryName" : "Books",
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/product-category/1"
+        },
+        "productCategory" : {
+          "href" : "http://localhost:8080/api/product-category/1"
+        },
+        "products" : {
+          "href" : "http://localhost:8080/api/product-category/1/products"
+        }
+      }
+    },...}
+
 
