@@ -33,4 +33,8 @@ Possible Solutions:<br>
 2. Option 2: Use Spring Data REST
     2.1 Configure to disbale required HTTP methods
 
+Spring Data Rest and Spring Data JPA supports query methods. Spring will construct a query based on method naming conventions. Ex findBy, readBy, queryBy,etc<br>
+Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable); ===> spring will build and execute a query SELECT * FROM PRODUCT WHERE CATEGORY_ID=?;<br>
+If you don't want the query bbuilt by spring, you can use @Query annotation to build your own custom query for REST repo method. Data REST automitcally exposes endpts for query methods: /search/queryMethodName
+
 
