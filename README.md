@@ -77,3 +77,40 @@ There is no entity id at the productcategory level,but, enitity id is embedded i
     },...}
 
 
+SpringData Rest also send Pagination metadata http://localhost:8080/api/products?pages=0&size=10<br>
+{
+  "_embedded" : {
+    "products" : [ {
+      "id" : 1,
+      "sku" : "BOOK-TECH-1000",
+      "name" : "Crash Course in Python",
+      "description" : "Learn Python at your own pace. The author explains how the technology works in easy-to-understand language. This book includes working examples that you can apply to your own projects. Purchase the book and get started today!",
+      "unitPrice" : 14.99,
+      "imageUrl" : "assets/images/products/books/book-luv2code-1000.png",
+      "active" : true,
+      "unitsInStock" : 100,
+      "dateCreated" : "2021-08-01T02:45:21.000+00:00",
+      "lastUpdated" : null,
+      "_links" : {
+        "self" : {
+          "href" : "http://localhost:8080/api/products/1"
+        },
+        "product" : {
+          "href" : "http://localhost:8080/api/products/1"
+        },
+        "category" : {
+          "href" : "http://localhost:8080/api/products/1/category"
+        }
+      }
+    }, ...,
+  "page" : {
+    "size" : 10,
+    "totalElements" : 100,
+    "totalPages" : 10,
+    "number" : 0 //for spring pagenumbers are 0 based, while for ng-bootssrap it is 1 based
+  }
+}
+
+For pagiantion we need implelkemntation on both BE and FE, but Spring data rest manages that for us throguh concepts of page and size. In FE, we use ng-boostrap for pagination. We jsut need to map the above pagination metadata in FE pagination implementation.
+
+
