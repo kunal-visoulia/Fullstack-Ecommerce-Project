@@ -1,7 +1,9 @@
 package com.kunal.ecommerce.config;
 
+import com.kunal.ecommerce.entity.Country;
 import com.kunal.ecommerce.entity.Product;
 import com.kunal.ecommerce.entity.ProductCategory;
+import com.kunal.ecommerce.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -28,28 +30,34 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
-        HttpMethod[] unsupportedActions = {HttpMethod.PUT,HttpMethod.POST,HttpMethod.DELETE};
-        config.getExposureConfiguration()
-                .forDomainType(Product.class) //disabling for product Repo
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions)) //for a singe item
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions)); //for collection of items
+        HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
-        config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class) //disabling for product Repo
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions)) //for a singe item
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(unsupportedActions)); //for collection of items
+        // disable HTTP methods: PUT, POST and DELETE
+        disableHttpMethods(Product.class, config, theUnsupportedActions);
+        disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
+        disableHttpMethods(Country.class, config, theUnsupportedActions);
+        disableHttpMethods(State.class, config, theUnsupportedActions);
 
         // call an internal helper method
         exposeIds(config);
     }
 
-    // expose entity ids
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
+        config.getExposureConfiguration()
+                .forDomainType(theClass)
+                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
+                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+    }
+
     private void exposeIds(RepositoryRestConfiguration config) {
+
+        // expose entity ids
+        //
 
         // - get a list of all entity classes from the entity manager
         Set<EntityType<?>> entities = entityManager.getMetamodel().getEntities();
 
-        // - create an arraylist of the above entity types
+        // - create an array of the entity types
         List<Class> entityClasses = new ArrayList<>();
 
         // - get the entity types for the entities

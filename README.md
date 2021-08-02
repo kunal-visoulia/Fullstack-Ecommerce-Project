@@ -2,6 +2,11 @@
 STEPS:
 1. setup db tables 
 
+...
+
+2. Checkout Form: Populate countries and States from BE api. Added new tables Country(id(pk),code,name) and State(id(pk),name,country_id(fk references country id)). Added new corresponding JPA Entities and repositories. For State repository, added custom query method finByCountryCode because i want to find states by country code and not just all states. Also added config to make apis /country and /state readonly(becuase there is no need for updation).ran the script for countrie snad states. ap/countries returned list of countries and in each country was its assocaited states objec. but we didnot want states so we used @JsonIgnore.
+
+
 
 Used Spring Data JPA(Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate), Lombok, Rest Repositories(Exposing Spring Data repositories over REST via Spring Data REST) and MYSQL Driver dependencies.
 
