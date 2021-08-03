@@ -4,7 +4,9 @@ STEPS:
 
 ...
 
-2. Checkout Form: Populate countries and States from BE api. Added new tables Country(id(pk),code,name) and State(id(pk),name,country_id(fk references country id)). Added new corresponding JPA Entities and repositories. For State repository, added custom query method finByCountryCode because i want to find states by country code and not just all states. Also added config to make apis /country and /state readonly(becuase there is no need for updation).ran the script for countrie snad states. ap/countries returned list of countries and in each country was its assocaited states objec. but we didnot want states so we used @JsonIgnore.
+2. Checkout Form: Populate countries and States from BE api. Added new tables Country(id(pk),code,name) and State(id(pk),name,country_id(fk references country id)). Added new corresponding JPA Entities and repositories. For State repository, added custom query method findByCountryCode because i want to find states by country code and not just all states. Also added config to make apis /country and /state readonly(becuase there is no need for updation).ran the script for countrie snad states. ap/countries returned list of countries and in each country was its assocaited states objec. but we didnot want states so we used @JsonIgnore(Reproducing this scenario: Create Entities for Country and State==> create repository interface only for country==> country contains a List<states> so if you got to /api/countire rn, it will ahve the list of all states embedded into each country==>resolve by adding@jsonignore to country entity List<states>).
+
+3. 
 
 
 

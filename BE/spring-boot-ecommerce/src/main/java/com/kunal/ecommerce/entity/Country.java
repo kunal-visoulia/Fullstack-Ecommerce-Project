@@ -25,7 +25,7 @@ public class Country {
     private String name;
 
     @OneToMany(mappedBy = "country") //one country has many states
-    @JsonIgnore // will ignore the nested states(there will be no states key). without this, if you goto /api/countires you will get a nested state object, with all associated states for a country, but we don't want countries data to contain all associated states, we will retireve states letter
+    @JsonIgnore // will ignore the nested states(there will be no states key). without this, if you goto /api/countires(given you don't have state repo interface yet else you will see referencce to state api inside country like  "states" : {  "href" : "http://localhost:8080/api/countries/1/states"}) you will get a nested state object, with all associated states for a country, but we don't want countries data to contain all associated states, we will retireve states letter
     private List<State> states; //List of states that are mapped by country
 
 }

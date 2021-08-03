@@ -19,7 +19,7 @@ public class State {
 
     @ManyToOne //many states are mapped to one country
     @JoinColumn(name="country_id") //actual column that we are joining on in the state table and so that country_id maps back to the actual country table as a foreigh ket relationship
-    private com.kunal.ecommerce.entity.Country country;
+    private Country country;
 
 }
 
