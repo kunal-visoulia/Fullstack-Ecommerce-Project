@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Luv2ShopFormService } from 'src/app/services/luv2-shop-form.service';
 import { Country } from 'src/app/common/country';
 import { State } from 'src/app/common/state';
+import { Luv2ShopValidators } from 'src/app/validators/luv2-shop-validators';
 
 @Component({
   selector: 'app-checkout',
@@ -36,8 +37,15 @@ export class CheckoutComponent implements OnInit {
     
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: new FormControl('', [Validators.required, Validators.minLength(2)]),
-        lastName:  new FormControl('', [Validators.required, Validators.minLength(2)]),
+        firstName: new FormControl('', 
+                              [Validators.required, 
+                               Validators.minLength(2), 
+                               Luv2ShopValidators.notOnlyWhitespace]),
+
+        lastName:  new FormControl('', 
+                              [Validators.required, 
+                               Validators.minLength(2), 
+                               Luv2ShopValidators.notOnlyWhitespace]),
         email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])//not using validators.email cuz its too leanient; it just checks <text>@<text> and so anil@gmail passes
       }),
       shippingAddress: this.formBuilder.group({
