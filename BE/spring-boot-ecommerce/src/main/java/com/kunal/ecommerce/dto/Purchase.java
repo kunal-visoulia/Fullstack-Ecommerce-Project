@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Data
 public class Purchase {
-
+    // REMEMBER: All these are references to actual data in tables cuz PURCHASE has relationship to below tables
     private Customer customer;
     private Address shippingAddress;
     private Address billingAddress;

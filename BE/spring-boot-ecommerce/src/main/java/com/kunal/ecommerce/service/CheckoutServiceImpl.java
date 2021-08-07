@@ -13,7 +13,7 @@ import javax.transaction.Transactional;
 import java.util.Set;
 import java.util.UUID;
 
-@Service // this is the service implementation; and so that springboot can pikc this up during component scanning
+@Service // this is the service implementation; and so that springboot can pick this up during component scanning
 public class CheckoutServiceImpl implements CheckoutService {
 
     private CustomerRepository customerRepository;
@@ -35,7 +35,7 @@ public class CheckoutServiceImpl implements CheckoutService {
         order.setOrderTrackingNumber(orderTrackingNumber);
 
         // populate order with orderItems
-        Set<OrderItem> orderItems = purchase.getOrderItems();
+        Set<OrderItem> orderItems = purchase.getOrderItems();// this purchase we got from FE???
         orderItems.forEach(item -> order.add(item));
 
         // populate order with billingAddress and shippingAddress

@@ -31,7 +31,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    private Order order; //reference to order, this orderItem is associated with
+    private Order order; //reference to order(ORDERS table) this orderItem is associated with; needed by setOrder in Order entity
 
 }
 

@@ -158,12 +158,10 @@ export class CheckoutComponent implements OnInit {
   copyShippingAddressToBillingAddress(event) {
 
     if (event.target.checked) {
-      this.checkoutFormGroup.controls.billingAddress
-            .setValue(this.checkoutFormGroup.controls.shippingAddress.value);
+      this.checkoutFormGroup.controls.billingAddress.setValue(this.checkoutFormGroup.controls.shippingAddress.value);
 
-      // bug fix for states
+      // bug fix for states cuz when setting value(line 161) only selected state of shipping address is copied but that biiling states dropdown gets its value from  billingAddressStates. So value gets copied into billin address but not shown in UI correctly
       this.billingAddressStates = this.shippingAddressStates;
-
     }
     else {
       this.checkoutFormGroup.controls.billingAddress.reset();
@@ -246,7 +244,7 @@ export class CheckoutComponent implements OnInit {
   resetCart() {
     // reset cart data
     this.cartService.cartItems = [];
-    this.cartService.totalPrice.next(0);
+    this.cartService.totalPrice.next(0); //maybe this is why we didn't expose subjects as observable because we need subject to push values from here too
     this.cartService.totalQuantity.next(0);
     
     // reset the form

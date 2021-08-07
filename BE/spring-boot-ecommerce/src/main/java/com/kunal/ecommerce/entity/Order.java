@@ -50,7 +50,7 @@ public class Order {
     private Customer customer;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shipping_address_id", referencedColumnName = "id") // referenced id(2nd param) is actual column in address table
+    @JoinColumn(name = "shipping_address_id", referencedColumnName = "id") // 1st param is name of column in ORDER table andreferenced id(2nd param) is actual column in address table
     private Address shippingAddress;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -65,7 +65,9 @@ public class Order {
             }
 
             orderItems.add(item);
-            item.setOrder(this); //so that we have bi-directional relationship setup
+
+            //here this refers to this order; setting it because orderItem has a reference to order its associated with
+            item.setOrder(this); // this is lombok generated setter(oderItem's setter); so that we have bi-directional relationship setup
         }
     }
 }

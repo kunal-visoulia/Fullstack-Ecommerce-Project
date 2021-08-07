@@ -12,7 +12,7 @@ import { CartItem } from 'src/app/common/cart-item';
 })
 export class ProductDetailsComponent implements OnInit {
 
-  product: Product = new Product();//new product() or use "?"in template for safety checks before accesing the property so its not null(just empty product) initially beofre api call is made
+  product: Product = new Product();//new product() or use "?"in template for safety checks before accesing the property(ex template trying to access product.imageUrl before the api call is complete thus leading to a race conditoion) so its not null(just empty product) initially beofre api call is made
 
   constructor(private productService: ProductService,
               private cartService: CartService,
