@@ -2,7 +2,7 @@
 STEPS:
 1. setup db tables(create-user.sql(creates a new user),create-products.sql(creates a schema, and inside that schema 2 tables product and procuct_category))
 
-2. start.spring.io spring-boot-starter-data-jpa(Spring Data JPA(dependency name in start.spring.io)), spring-boot-starter-data-rest(Rest Repositiories), mysql-connector-java(MySQL Driver), lombok(for getter and setters and other boilerplate code). Created application.properties file with required db config. Created JPA Entities for db tables. Created REST APIs with Spring Data JPA repositories(interfaces in DAO) and  Spring Data REST.Used Spring Data JPA(Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate), Lombok, Rest Repositories(Exposing Spring Data repositories over REST via Spring Data REST) and MYSQL Driver dependencies. The dialect specifies the type of database used in hibernate so that hibernate generate appropriate type of SQL statements. For connecting any hibernate application with the database, it is required to provide the configuration of SQL dialect.<br>In computer software, a data access object (DAO) is a pattern that provides an abstract interface to some type of database or other persistence mechanism. By mapping application calls to the persistence layer, the DAO provides some specific data operations without exposing details of the database.The Data Access Object (DAO) pattern is a structural pattern that allows us to isolate the application/business layer from the persistence layer (usually a relational database, but it could be any other persistence mechanism) using an abstract API.The functionality of this API is to hide from the application all the complexities involved in performing CRUD operations in the underlying storage mechanism. This permits both layers to evolve separately without knowing anything about each other.
+2. start.spring.io spring-boot-starter-data-jpa(Spring Data JPA(dependency name in start.spring.io)), spring-boot-starter-data-rest(Rest Repositiories), mysql-connector-java(MySQL Driver), lombok(for getter and setters and other boilerplate code).<br>Created application.properties file with required db config.<br> Created JPA Entities for db tables.<br> Created REST APIs with Spring Data JPA repositories(interfaces in DAO) and  Spring Data REST.Used Spring Data JPA(Persist data in SQL stores with Java Persistence API using Spring Data and Hibernate), Lombok, Rest Repositories(Exposing Spring Data repositories over REST via Spring Data REST) and MYSQL Driver dependencies. <br>The dialect specifies the type of database used in hibernate so that hibernate generate appropriate type of SQL statements. For connecting any hibernate application with the database, it is required to provide the configuration of SQL dialect.<br>In computer software, a data access object (DAO) is a pattern that provides an abstract interface to some type of database or other persistence mechanism. By mapping application calls to the persistence layer, the DAO provides some specific data operations without exposing details of the database.The Data Access Object (DAO) pattern is a structural pattern that allows us to isolate the application/business layer from the persistence layer (usually a relational database, but it could be any other persistence mechanism) using an abstract API.The functionality of this API is to hide from the application all the complexities involved in performing CRUD operations in the underlying storage mechanism. This permits both layers to evolve separately without knowing anything about each other.
 
 3. RELEASE 1.0: created product-list componenet to get lists of product via a service. creqate a Product class to represent Product[] coming from BE.
 
@@ -14,7 +14,7 @@ Possible Solutions:<br>
     1.1 Manually create your own @RestController
     1.2 Manually define methods for GET accesss(@GetMapping)
     1.3 But we lost the Spring Data Rest support for paging, sorting,etc
-    ```
+
     /api
     {
   "_links" : {
@@ -31,8 +31,6 @@ Possible Solutions:<br>
     }
   }
 }
-    ```
-
 
 2. Option 2: Use Spring Data REST
     2.1 Configure to disbale required HTTP methods
@@ -42,8 +40,10 @@ Possible Solutions:<br>
 
 5. Added Search for product by category(not related to search bar, these are links in the sidenav, when you click on them, main grid will show products of that category). Route: /category/id or /category(in this case use deafult id). Product List componenet(simple table in release 1.0 but now a whole grid of products) gets product for given categry from BE(the BE returned products regardless of category so added new query method findByCategoryId to REST repo and Spring Data REST automatically expose end pts for query methods under api/products/search/querymethodname?paramlist). Currently i was just hardcoding the ids(category names and ids are static) in UI in sdienav(routerlink="category/1", etc). 
 ```
-Spring Data Rest and Spring Data JPA supports query methods. Spring will construct a query based on method naming conventions. Ex findBy, readBy, queryBy,etc<br>
-Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable); ===> spring will build and execute a query SELECT * FROM PRODUCT WHERE CATEGORY_ID=?;<br>
+Spring Data Rest and Spring Data JPA supports query methods. Spring will construct a query based on method naming conventions. Ex findBy, readBy, queryBy,etc
+
+Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable); ===> spring will build and execute a query SELECT * FROM PRODUCT WHERE CATEGORY_ID=?;
+
 If you don't want the query bbuilt by spring, you can use @Query annotation to build your own custom query for REST repo method. 
 ```
 
@@ -67,8 +67,8 @@ By default, Spring Data REST does not expose entity ids. We need entity ids. We 
         }
       }
     },...
-}<br>
-There is no entity id at the productcategory level,but, enitity id is embedded in the hateos links. But no easy access, Requires parsing url string. Not ideal. I want the api response to include categoryid and Category Name at category Level only for dyanmic listing of categories in FE.<br>
+}
+There is no entity id at the productcategory level,but, enitity id is embedded in the hateos links. But no easy access, Requires parsing url string. Not ideal. I want the api response to include categoryid and Category Name at category Level only for dyanmic listing of categories in FE.
 {
   "_embedded" : {
     "productCategory" : [ {
@@ -129,7 +129,9 @@ SpringData Rest also send Pagination metadata http://localhost:8080/api/products
   }
 }
 
-For pagiantion we need implementation on both BE and FE, but Spring data rest manages that for us through concepts of page and size. In FE, we use ng-boostrap for pagination. We jsut need to map the above pagination metadata in FE pagination implementation.
+For pagiantion we need implementation on both BE and FE, but Spring data rest manages that for us through
+concepts of page and size. In FE, we use ng-boostrap for pagination. We jsut need to map the above
+pagination metadata in FE pagination implementation.
 ```
 
 10. Added pagination for keyword search. add new api call method to search products and send pagination params, actually everything we did above just for handling pagination in searchmode in productlist component.
@@ -138,9 +140,9 @@ For pagiantion we need implementation on both BE and FE, but Spring data rest ma
 
 12. Created card details component that just recieves info ffrom cart service and shows cart data wiht increment quantity, decrement quantity and remove item buttons.
 
-13. Checkout Form: Reactive Form(Form control: individual control that tracks the value and validation status; FormGroup: a collection of controls, can create nested groups; Formbuilder:to build the form) Populate countries and States from BE api. Added new tables Country(id(pk),code,name) and State(id(pk),name,country_id(fk references country id)). Added new corresponding JPA Entities and repositories. For State repository, added custom query method findByCountryCode(table:country,column:code) because i want to find states by country code and not just all states. Also added config to make apis /country and /state readonly(becuase there is no need for updation).ran the script for countries and states. api/countries returned list of countries and in each country was its assocaited states object. but we didnot want states so we used @JsonIgnore(Reproducing this scenario: Create Entities for Country and State==> create repository interface only for country==> country contains a List<states> so if you got to /api/countire rn, it will ahve the list of all states embedded into each country==>resolve by adding@jsonignore to country entity List<states>).<br> added luv2shopformservice for credit card expiry date and yesrs suggestions(logic here to show months based on selected year).
+13. Checkout Form: Reactive Form(Form control: individual control that tracks the value and validation status; FormGroup: a collection of controls, can create nested groups; Formbuilder:to build the form)<br>Populate countries and States from BE api. Added new tables Country(id(pk),code,name) and State(id(pk),name,country_id(fk references country id)). Added new corresponding JPA Entities and repositories.<br> For State repository, added custom query method findByCountryCode(table:country,column:code) because i want to find states by country code and not just all states. Also added config to make apis /country and /state readonly(becuase there is no need for updation).ran the script for countries and states. api/countries returned list of countries and in each country was its assocaited states object. but we didnot want states so we used @JsonIgnore(Reproducing this scenario: Create Entities for Country and State==> create repository interface only for country==> country contains a List<states> so if you got to /api/countire rn, it will ahve the list of all states embedded into each country==>resolve by adding@jsonignore to country entity List<states>).<br> added luv2shopformservice for credit card expiry date and yesrs suggestions(logic here to show months based on selected year).
 
-INSERT INTO `country` VALUES 
+INSERT INTO country VALUES 
 (1,'BR','Brazil'),
 (2,'CA','Canada'),
 (3,'DE','Germany'),
@@ -148,7 +150,7 @@ INSERT INTO `country` VALUES
 (5,'TR','Turkey'),
 (6,'US','United States');
 
-INSERT INTO `state` VALUES 
+INSERT INTO state VALUES 
 (1,'Acre',1),
 (2,'Alagoas',1),
 (3,'Amapá',1),
@@ -160,9 +162,9 @@ INSERT INTO `state` VALUES
 
 though we did @jsonignore which only removes list of states from returned json data, but still in DB avery country contains a list of associated states
 ```
- @OneToMany(mappedBy = "country") 
-    @JsonIgnore 
-    private List<State> states;
+@OneToMany(mappedBy = "country") 
+@JsonIgnore 
+private List<State> states;
 ```
 so it finds country with given code and returns the lsit of states. but how is this query method present in States repo???
 
