@@ -22,13 +22,15 @@ import { LoginStatusComponent } from './components/login-status/login-status.com
 import {
   OKTA_CONFIG,
   OktaAuthModule,
-  OktaCallbackComponent
+  OktaCallbackComponent,
+  OktaAuthGuard
 } from '@okta/okta-angular';
 
 import myAppConfig from './config/my-app-config';
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 const oktaConfig = Object.assign({ 
-  onAuthRequired: (injector) => { //create new object onAuthRequired. So when they try and log into our app, and they have not been authenticated, then we'll actually route them to the login page
+  onAuthRequired: (oktaAuth, injector) => { //create new object onAuthRequired. So when they try and log into our app, and they have not been authenticated, then we'll actually route them to the login page
     const router = injector.get(Router);
 
     // Redirect the user to your custom login page
@@ -37,6 +39,8 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
+  {path: 'members', component: MembersPageComponent, canActivate: [ OktaAuthGuard ]}, //OktaAuthGuard is the route guard; if authenticated, gives access to rout else send them to login page
+
   {path: 'login/callback', component: OktaCallbackComponent}, //  Once the user is authenticated, they are redirected to your app.Normally you would need to parse the response and store the OAuth+OIDC tokens. The oktaCallbackComponent does this for us.
   {path: 'login', component: LoginComponent},
 
@@ -62,7 +66,8 @@ const routes: Routes = [
     CartDetailsComponent,
     CheckoutComponent,
     LoginComponent,
-    LoginStatusComponent
+    LoginStatusComponent,
+    MembersPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

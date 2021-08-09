@@ -295,3 +295,5 @@ Developing Code with OAuth2,OpenID connect, JWT required lo-lwvwl boiler plate c
 21. Authorization code flow with PKCE(Proof Key for Code Exchange): Recommended approach for controlling access between app and auth server. Protects against Authorization Code Interception attacks. Introduces concept of dynamic secrets. Implemented with a code verifier, code challenge and method. https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow-with-pkce
 
 22. Configured the Okta signin widget for user registration. During registration, user will need to provide email address but making email activation mandatory is a choice. Enable registration(Directory>Self-service reg) in okta dashboard.
+
+23. VIP member page accessible only to authenticated users. Added a protected route(/members) only accessible to authenticated users. User must be logged in, else redirect them to login screen. Used okta provided route guard implementation with Angualr's canActivate.
