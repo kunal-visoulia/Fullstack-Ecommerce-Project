@@ -260,3 +260,30 @@ id, order_tracking_number, total_price, total_quantity, billing_address_id, cust
 '3', 'f8b0a5f6-2aab-46d6-8d42-c480668c4d3b', '36.98', '2', '5', '3', '6', NULL, '2021-08-07 21:08:07.812000', '2021-08-07 21:08:07.812000'
 
 ```
+
+19. RELEASE 3.0: User login/logout security, Provide access to speacial VIP page only for authenticated users, keep track of order hsitory for registered customers.<br>
+  - Authentication: validating whether a user/app is who they claim to be via username and password or Token/ Pin<br>
+  - Authorization(Roles): determining the actions a user/app can perform. Ex: Guest user: read-only, Authenticated user: read/write data in user account, Admin: full access to all accounts system wide.<br>
+  - OAuth2: Authorization framework that enables apps to have limited access to a resource on behalf of a resource owner(user).<br>
+    ![plot](./img/5.png)<br>
+    Resource Owner: the user like your user account.<br>
+    Protected Resource: ex: google drive with your files<br>
+    Client App: some application used by User to try and integrate with their google drive<br>
+    Authorization Server: the server who have infos for the permissions and roles. Defines access policies for a given app/protected resource(what a user can do for accessing different resources). Generates tokens for Oauth2 or OpenID connect and define security policies. <br>
+
+    ![plot](./img/6.png)<br>
+    Request authorization: Client app- hey user, can i access you Gdrive to do X,Y and Z?. aut server provides auth token to client app and client app uses that auth token to get the access token. This access token contains info as how they can access the given resource and what they can do with that resource. Can also serve as Identiity Provider using OpenID connect.
+
+  - OpenID Connect: Identity layer on top of OAuth2. OAuth2 only provides support for authorization, OpenID will allow you to have authentication. Allows clients to recieve "identity" imfo about authenticated resource owners(users) by providing an ID Token that contians info about the user, other details and anythin else that has been published via the authorization server.
+
+    - JWT: Open standard that defines self-contained way of describing token. Secure and digitally signed to gurantee integrity. Used by OAuth and OpenId Connect
+    ![plot](./img/7.png)<br>
+
+Okta: provides a cloud based authorization server and platform. Supoorts OAuth2,OpenID connect, JWT. Provides:
+  - Authentication: via login widgets(no need for you to create login page), Social login(login via FB,twitter,etc),
+  - Authorization: Role-based access(define roles and define what end-points/action that they can perform), API access policies,
+  - User Management: Admin Panel for managing users, Policy Assignment
+
+Developing Code with OAuth2,OpenID connect, JWT required lo-lwvwl boiler plate code, rather use okta provided sdk for angular and springboot. Okta.com <--> Angular <--> SpringBoot
+
+
