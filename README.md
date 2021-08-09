@@ -297,3 +297,15 @@ Developing Code with OAuth2,OpenID connect, JWT required lo-lwvwl boiler plate c
 22. Configured the Okta signin widget for user registration. During registration, user will need to provide email address but making email activation mandatory is a choice. Enable registration(Directory>Self-service reg) in okta dashboard.
 
 23. VIP member page accessible only to authenticated users. Added a protected route(/members) only accessible to authenticated users. User must be logged in, else redirect them to login screen. Used okta provided route guard implementation with Angualr's canActivate.
+
+24. If you do browser refresh or if you add products to cart and login, you will lose the products in your cart. We can use client side Web Storage API introduced by HTML5. Similar to cookies but provides a more intuitive API and requires a HM+TML5 supported modern browser. Data stored in web storage is not encrypted just plain text.Two types of web storage:
+  - Session Storage : data stored in browser's session(client side memory) while tab is running. Data is never sent to server(not to be confused with HttpSession of BE). Each web browser tab has its own session and data is not shared between tabs. When tab is closed, data is lost.
+  - Local Storage: Data Stored on client side computer.Data is never sent to server. Data is availble to tabs of the same web brwoser for same origin. App must read data again,normally with a browser refresh. Data persists even if the browse is clsoed. No expiration date on data. Can clear the data using JS or clearing browser cache. Data is not shared between different web  browsers(chrome can't access mozilla). 
+
+  Data Scoping : Only pages from the same origin can access the data. origin is: protocol + hostname + port. 
+
+  User can tinker with the data so app should be resilient and have reasonable default values.
+
+  Web Storage API: works same for session or local storage. key-value are always strings. setItem(key,value), getItem(key), removeItem(key), clear().
+
+  
