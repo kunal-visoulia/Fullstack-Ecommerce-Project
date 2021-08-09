@@ -286,4 +286,10 @@ Okta: provides a cloud based authorization server and platform. Supoorts OAuth2,
 
 Developing Code with OAuth2,OpenID connect, JWT required lo-lwvwl boiler plate code, rather use okta provided sdk for angular and springboot. Okta.com <--> Angular <--> SpringBoot
 
+20. Steps:
+  - Created free account on developer.okta.com
+  - Add OpenID Connect client app in Okta: create new SPA app in okta dev account(Grant Type Allowed = Authorization Code (for PKCE))
+  - Setup app config for OpenId Connect: Need to provide clientId(public identifier of the client app) and issuer(Okta Domain,the Issuer of tokens. Okta domain is a unique domain for your dev account. angualr app will use https://${yourOktaDomain}/oauth2/default for tokens) from okta. OIDC scopes provide access to info about a user such name, phone number, email etc. The scope has a set of user attributes called claims. openid: required for authentication requests, profile: user's first name, last name, phone, etc. , email: user's email address.
+  - Install okta SDK: Sign-in widget, Angular SDK(provides integration with Angular Router for auth and auth, Login/Logout from Okta using OAuth 2.0 API, Retrieve User info and determine authentication status, add protected routes that require authentication, subscribe to chnages in authentication state). to install: npm install @okta/okta-signin-widget, @okta/okta-angular.
 
+30. Authorization code flow with PKCE(Proof Key for Code Exchange): Recommended approach for controlling access between app and auth server. Protects against Authorization Code Interception attacks. Introduces concept of dynamic secrets. Implemented with a code verifier, code challenge and method. https://developer.okta.com/docs/concepts/oauth-openid/#authorization-code-flow-with-pkce
