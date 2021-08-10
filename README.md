@@ -351,12 +351,14 @@ Solution: A single customer is associated with multiple orders. in CheckoutServi
   - Java Keystore: Java provides support for keys and certs. A keystore is a file that contians keys and certifictes. the entries are associated with an alias and pswd. ex keyStore [ alias1 ----> [[ key ] [ cert ]],  alias2 ----> [[ key ] [ cert ]] ]
 
   ```
-For maven projects, files in src/main/reosurces are automatically added to the classpath
+  For maven projects, files in src/main/reosurces are automatically added to the classpath
 
-keytool -genkeypair -alias luv2code -keystore src/main/resources/luv2code-keystore.p12 -keypass secret -storeType PKCS12 -storepass secret -keyalg RSA -keysize 2048 -validity 365 -dname "C=US, ST=Pennsylvania, L=Philadelphia, O=luv2code, OU=Training Backend, CN=localhost" -ext "SAN=dns:localhost"
+  keytool -genkeypair -alias luv2code -keystore src/main/resources/luv2code-keystore.p12 -keypass secret -storeType PKCS12 -storepass secret -keyalg RSA -keysize 2048 -validity 365 -dname "C=US, ST=Pennsylvania, L=Philadelphia, O=luv2code, OU=Training Backend, CN=localhost" -ext "SAN=dns:localhost"
 
   ```
-luv2code.com/keytool-steps https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/keytool-steps.md
+  luv2code.com/keytool-steps https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/keytool-steps.md
 
-**https://localhost:8443/api/ not 8080 Now our BE is running on HTTPS**
+  **https://localhost:8443/api/ not 8080 Now our BE is running on HTTPS**
 
+31. Angualr environments: We have a problem that our app has springboot url hardcoded(baseurl and category url), but recently switched to port 8443 and https. That's where Environments(properties file) come in, place URLs in a configuration==> no need to change multplie references, use a different url based on env, allys app to easily run if deployed to a different env/server.
+  - Environments: an env is a named configuration for your app. there can be various envs. by default 2 files are created: envornment.ts(default env, just npm start) and environment.prod.ts(prod env; npm start -- --configuration=production). You can also create custom envs.
