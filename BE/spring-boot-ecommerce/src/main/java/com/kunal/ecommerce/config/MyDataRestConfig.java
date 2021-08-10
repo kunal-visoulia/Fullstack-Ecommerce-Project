@@ -45,7 +45,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         exposeIds(config);
 
         // configure cors mapping; now no need to allow in every individual Repository
-        // config.getBassePath() retireves the value of base path we added via application.properties file
+        // config.getBasePath() retireves the value of base path we added via application.properties file
         cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 
