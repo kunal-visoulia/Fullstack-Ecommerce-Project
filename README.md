@@ -341,9 +341,14 @@ Solution: A single customer is associated with multiple orders. in CheckoutServi
     ![plot](./img/12.png)<br>
     ![plot](./img/13.png)<br>
     Also we need to disable csrf in BE else your api/checkout/purchase will return 403 as it uses PostMapping. Fails because we are sending checkout request with HTTP POST. By defualt CSRF is enabled. CSRF performs checks on POST using cookies. Since we are not using cookies for session tracking, CSRF says request is unauthorized. This technique is commonly used for REST apis.
+29. Secure communication with HTTPS: ex, we wnat to encrypt our credit card info while sending it to BE. We want data encryption between the webbroser <==Encryption==> Angular app <==Encryption==> SpringBoot. We want https://localhost:4200 and https will handle secrue comm. and encrytpion between webbroser and webserver for us BTS. 
+    ![plot](./img/14.png)<br>
+    ![plot](./img/15.png)<br>
 
+    ![plot](./img/16.png)<br>
+    To run securely, you'll need keys and certificates for your given application. This basically provides proof of your server's identity, meaning your domain name and it's reviewed and signed by a trusted certificate authority, such as GoDaddy, Verisign, AWS, et cetera. Effectively, it's a mutually trusted third party that can vouch or verify that you are who you say you are in terms of server identity. So, if I'm running something for luvtocode.com, this'll verify that I actually own the luvtocode domain name, and I am the Luv To Code company. So that's the whole idea of a security, basically a stamp of approval from a trusted certificate authority. browser's give you a warning when you make use of self-signed certificates, because no one's been able to actually vouch or verify that you are who you actually say you are because it's self-signed. You simply made this up. But we can safely ignore this for dev/demo purposes.
 
-
+    - **this is for encrypting data between web browser and angular app** Generate key and self signed certificate(free utility openssl: https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/openssl-setup.md#ms-windows use git bash and past cmnd as it is and "npm start" to run the app with ssl key and cert), run ang app with the key and self signed certificate, update springboot app with the new url. We also need to update okta configs for URIs as we are using https now(in angualr config for okta, in oksta dashboard for redirect ui's for sign on and sign out under application and in Security>api>trusted origins).
 
 
 
