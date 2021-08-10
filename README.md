@@ -347,6 +347,16 @@ Solution: A single customer is associated with multiple orders. in CheckoutServi
 
     - **this is for encrypting data between web browser and angular app** Generate key and self signed certificate(free utility openssl: https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/openssl-setup.md#ms-windows use git bash and past cmnd as it is and "npm start" to run the app with ssl key and cert), run ang app with the key and self signed certificate, update springboot app with the new url. We also need to update okta configs for URIs as we are using https now(in angualr config for okta, in oksta dashboard for redirect ui's for sign on and sign out under application and in Security>api>trusted origins).
 
+30. Secure comm with Https for encryption between angular app and springboot app: Generate key and self-signed certificate(using jdk utility keytool) and update application.properties with security configs(it should match the configs you provided while creating key with keytool).
+  - Java Keystore: Java provides support for keys and certs. A keystore is a file that contians keys and certifictes. the entries are associated with an alias and pswd. ex keyStore [ alias1 ----> [[ key ] [ cert ]],  alias2 ----> [[ key ] [ cert ]] ]
 
+  ```
+For maven projects, files in src/main/reosurces are automatically added to the classpath
 
+keytool -genkeypair -alias luv2code -keystore src/main/resources/luv2code-keystore.p12 -keypass secret -storeType PKCS12 -storepass secret -keyalg RSA -keysize 2048 -validity 365 -dname "C=US, ST=Pennsylvania, L=Philadelphia, O=luv2code, OU=Training Backend, CN=localhost" -ext "SAN=dns:localhost"
+
+  ```
+luv2code.com/keytool-steps https://github.com/darbyluv2code/fullstack-angular-and-springboot/blob/master/bonus-content/secure-https-communication/keytool-steps.md
+
+**https://localhost:8443/api/ not 8080 Now our BE is running on HTTPS**
 
