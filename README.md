@@ -272,7 +272,7 @@ id, order_tracking_number, total_price, total_quantity, billing_address_id, cust
   - OAuth2: Authorization framework that enables apps to have limited access to a resource on behalf of a resource owner(user).<br>
     ![plot](./img/5.png)<br>
     Resource Owner: the user like your user account.<br>
-    Protected Resource: ex: google drive with your files<br>
+    Protected Resource and  Resource Server: ex: google drive with your files. The app that is hosting our protected resources is called Resource server. <br>
     Client App: some application used by User to try and integrate with their google drive<br>
     Authorization Server: the server who have infos for the permissions and roles. Defines access policies for a given app/protected resource(what a user can do for accessing different resources). Generates tokens for Oauth2 or OpenID connect and define security policies. <br>
 
@@ -326,3 +326,25 @@ Solution: A single customer is associated with multiple orders. in CheckoutServi
       - ANNOTATED: Only exposes Spring Data Repos explicitly annotated with @RepositoryRestResource and its exported attribute not set to false(default value of exported is true).
 
 27. View Order History for logged in users: added orderRepo to BE and Orderhistory related component,class and service in FE. We need to keep track of user's email address, so we will sotre it in session storage.
+
+28. Security for Order History(BE+FE): /api/orders in unsecured. this api should only be availble to logged in users. Steps:
+  - Add okta Spring Boot Starter to Maven pom.xml: okta provides a spring boot starter for OAuth2/OpenID Connect. It simpliefies integration and configuration of Spring Security and Okta.
+  - Create an app at the okta website: platform= Web; login redirect uri=http://localhost:8080/login.oauth2/code/okta(this uri is automatically exposed in our springboot app and this is provided by Okta SpringBoot Starter. We added the dependency in our pom.xml)
+  - in BE, set okta OAuth2 application properties:  these are use by spring boot app to verify/validate JWT access tokens. Resources Server,in context of OAuth2, is the app that is hosting our protected resources(our APIs). In our case it is our spring boot app. The reosurce server manages security using access tokens(JWT). The access tokens are validated with the Authorization server(Okta). 
+    ![plot](./img/8.png)<br>
+    ![plot](./img/9.png)<br>
+    ![plot](./img/10.png)<br>
+  - Protect endpts in Spring SecurityConfiguration class by providing access to /api/order/** to only authenticated users, configuring our springboot app as OAuth2 Resource Sever(.OAuth2ResourceSever()) and Enabling JWT-encoded bearer token support(.jwt(); so when this info is passed over as aprt of the HTTP request header, then this gives us functionality to process that header,read that info and process that jwt toekn accordingly).
+
+  - Now with only BE side setup, even if you logon in FE, you will get 401unauthaorized and won't see the orders list. because even though you are authenticated in Fe, we haven't passed our access token to the BE(JWT in header).
+    ![plot](./img/11.png)<br>
+    ![plot](./img/12.png)<br>
+    ![plot](./img/13.png)<br>
+    Also we need to disable csrf in BE else your api/checkout/purchase will return 403 as it uses PostMapping. Fails because we are sending checkout request with HTTP POST. By defualt CSRF is enabled. CSRF performs checks on POST using cookies. Since we are not using cookies for session tracking, CSRF says request is unauthorized. This technique is commonly used for REST apis.
+
+
+
+
+
+
+

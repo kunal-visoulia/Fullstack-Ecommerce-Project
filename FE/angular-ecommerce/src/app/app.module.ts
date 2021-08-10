@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ProductService } from './services/product.service';
 
 import { Routes, RouterModule, Router} from '@angular/router';
@@ -29,6 +29,7 @@ import {
 import myAppConfig from './config/my-app-config';
 import { MembersPageComponent } from './components/members-page/members-page.component';
 import { OrderHistoryComponent } from './components/order-history/order-history.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => { //create new object onAuthRequired. So when they try and log into our app, and they have not been authenticated, then we'll actually route them to the login page
@@ -80,7 +81,8 @@ const routes: Routes = [
     ReactiveFormsModule,
     OktaAuthModule
   ],
-  providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig }],
+  providers: [ProductService, { provide: OKTA_CONFIG, useValue: oktaConfig },
+    {provide: HTTP_INTERCEPTORS /* token(not jwt, just a token stirng) for Http Interceptors */, useClass: AuthInterceptorService /* register our service as an HTTP interceptor*/, multi: true /* informs angular that HTTP_Interceptors is a toekn for injecting an array of values because you can have 0 to amny interceptors */}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
