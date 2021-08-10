@@ -42,6 +42,7 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
+              "extractCss": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -58,6 +59,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.qa.ts"
+                }
+              ]
             }
           }
         },
@@ -69,6 +78,9 @@
           "configurations": {
             "production": {
               "browserTarget": "angular-ecommerce:build:production"
+            },
+            "qa": {
+              "browserTarget": "angular-ecommerce:build:qa"
             }
           }
         },
@@ -121,7 +133,6 @@
           }
         }
       }
-    }
-  },
+    }},
   "defaultProject": "angular-ecommerce"
 }

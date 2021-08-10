@@ -361,4 +361,7 @@ Solution: A single customer is associated with multiple orders. in CheckoutServi
   **https://localhost:8443/api/ not 8080 Now our BE is running on HTTPS**
 
 31. Angualr environments: We have a problem that our app has springboot url hardcoded(baseurl and category url), but recently switched to port 8443 and https. That's where Environments(properties file) come in, place URLs in a configuration==> no need to change multplie references, use a different url based on env, allys app to easily run if deployed to a different env/server.
-  - Environments: an env is a named configuration for your app. there can be various envs. by default 2 files are created: envornment.ts(default env, just npm start) and environment.prod.ts(prod env; npm start -- --configuration=production). You can also create custom envs.
+  - Environments: an env is a named configuration for your app. there can be various envs. by default 2 files are created: envornment.ts(default env, just npm start) and environment.prod.ts(prod env; npm start -- --configuration=production(references configuration>production in angualr.json)). You can also create custom envs.
+  - In angualr.json, projects > angualr-ecommerce > architect > serve > configurations has "qa":{ browserTarget: "angular-ecommerce:build:qa(this qa references the configuration in projects > angular-ecommerce > architect > build > configurations > qa for fileReplacements(does not actual changes file system, just tell angular to load speccific env.ts file) )" }. Now just run with npm start -- --configuration=qa given your springboot is listening to port 9898
+
+  ** This is the current setting for qa, make sure to revert last commit to go back to dev mode  settings for url in FE and BE **
