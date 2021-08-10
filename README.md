@@ -299,7 +299,7 @@ Developing Code with OAuth2,OpenID connect, JWT required lo-lwvwl boiler plate c
 23. VIP member page accessible only to authenticated users. Added a protected route(/members) only accessible to authenticated users. User must be logged in, else redirect them to login screen. Used okta provided route guard implementation with Angualr's canActivate.
 
 24. If you do browser refresh or if you add products to cart and login, you will lose the products in your cart. We can use client side Web Storage API introduced by HTML5. Similar to cookies but provides a more intuitive API and requires a HM+TML5 supported modern browser. Data stored in web storage is not encrypted just plain text.Two types of web storage:
-  - Session Storage : data stored in browser's session(client side memory) while tab is running. Data is never sent to server(not to be confused with HttpSession of BE). Each web browser tab has its own session and data is not shared between tabs. When tab is closed, data is lost.
+  - Session Storage : data stored in browser's session(client side memory) while tab is running. Data is never sent to server(not to be confused with HttpSession of BE). Each web browser tab has its own session and data is not shared between tabs. When tab/browser is closed, data is lost.
   - Local Storage: Data Stored on client side computer.Data is never sent to server. Data is availble to tabs of the same web brwoser for same origin. App must read data again,normally with a browser refresh. Data persists even if the browse is clsoed. No expiration date on data. Can clear the data using JS or clearing browser cache. Data is not shared between different web  browsers(chrome can't access mozilla). 
 
   Data Scoping : Only pages from the same origin can access the data. origin is: protocol + hostname + port. 
@@ -308,4 +308,6 @@ Developing Code with OAuth2,OpenID connect, JWT required lo-lwvwl boiler plate c
 
   Web Storage API: works same for session or local storage. key-value are always strings. setItem(key,value), getItem(key), removeItem(key), clear().
 
-  
+25. Code Refactoring: Currently, if we perform multiple checkouts with same email address, we have multiple customer entries in the CUSTOMER table for the same customer that checked out mupltiple times. <br>
+Solution: A single customer is associated with multiple orders. in CheckoutServiceImpl, check DB if customer already exists based on email address, then use that else we have a new customer. So removed existing data from DB tables(temporarily disabled foreign key checks cuz we are deleting all data across all related tables customer,order,orderitems and address; why truncate?; faster than delete and it resets auto_increment back to starting value), modified DB schema of CUSTOMER table to allow only unique email addresses( Added UNIQUE DB constraint to email column ), Added new method findByEmail to CustomerRepository and updated CheckoutServiceImpl for email add exists logic.
+
