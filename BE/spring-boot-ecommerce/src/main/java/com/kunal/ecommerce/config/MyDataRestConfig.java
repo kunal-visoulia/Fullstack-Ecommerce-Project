@@ -5,6 +5,7 @@ import com.kunal.ecommerce.entity.Product;
 import com.kunal.ecommerce.entity.ProductCategory;
 import com.kunal.ecommerce.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -19,6 +20,8 @@ import java.util.Set;
 
 @Configuration //so that springboot picks up this class
 public class MyDataRestConfig implements RepositoryRestConfigurer {
+    @Value("${allowed.origins}") //from application.properties file
+    private String[] theAllowedOrigins;
 
     private EntityManager entityManager;
 
@@ -40,6 +43,10 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         // call an internal helper method
         exposeIds(config);
+
+        // configure cors mapping; now no need to allow in every individual Repository
+        // config.getBassePath() retireves the value of base path we added via application.properties file
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins(theAllowedOrigins);
     }
 
     private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
