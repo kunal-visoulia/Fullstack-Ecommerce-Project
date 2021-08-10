@@ -166,8 +166,13 @@ though we did @jsonignore which only removes list of states from returned json d
 @JsonIgnore 
 private List<State> states;
 ```
-so it finds country with given code and returns the lsit of states. but how is this query method present in States repo???
-
+so it finds country with given code and returns the lsit of states. but how is this query method present in States repo???===> similar to how we ffind orders by customer email, and this method is defined in orderRepo cuz order table contains reference to its assicated customer(the same way state contains reference to associated country)
+```
+state.java
+@ManyToOne 
+@JoinColumn(name="country_id") 
+private Country country;
+```
 
 14. Validation for Checkout Page using new FormControls. We also needed to define getter methods to access these customer info FormControls in the HTMl template to get the actual status, list of errors,etc. ex in  template we do, firstName.invalid to check if validation failed. We only dispaly validation error if user has interacted with the form. When the user changes field value, the control is marked as dirty and when the field loses focus, the control is marked as touched.
 
@@ -319,3 +324,5 @@ Solution: A single customer is associated with multiple orders. in CheckoutServi
       - DEFAULT: Exposes public Spring Data Repos or ones explicitly annotated with @RepositoryRestResource and its exported attribute not set to false(default value of exported is true).
       - VISIBILITY: Exposes only public Spring Data Repo regardless of annotation configuration.
       - ANNOTATED: Only exposes Spring Data Repos explicitly annotated with @RepositoryRestResource and its exported attribute not set to false(default value of exported is true).
+
+27. View Order History for logged in users: added orderRepo to BE and Orderhistory related component,class and service in FE. We need to keep track of user's email address, so we will sotre it in session storage.

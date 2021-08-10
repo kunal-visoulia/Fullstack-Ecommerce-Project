@@ -28,6 +28,7 @@ import {
 
 import myAppConfig from './config/my-app-config';
 import { MembersPageComponent } from './components/members-page/members-page.component';
+import { OrderHistoryComponent } from './components/order-history/order-history.component';
 
 const oktaConfig = Object.assign({ 
   onAuthRequired: (oktaAuth, injector) => { //create new object onAuthRequired. So when they try and log into our app, and they have not been authenticated, then we'll actually route them to the login page
@@ -39,6 +40,7 @@ const oktaConfig = Object.assign({
 }, myAppConfig.oidc);
 
 const routes: Routes = [
+  {path: 'order-history', component: OrderHistoryComponent, canActivate: [ OktaAuthGuard ]},
   {path: 'members', component: MembersPageComponent, canActivate: [ OktaAuthGuard ]}, //OktaAuthGuard is the route guard; if authenticated, gives access to rout else send them to login page
 
   {path: 'login/callback', component: OktaCallbackComponent}, //  Once the user is authenticated, they are redirected to your app.Normally you would need to parse the response and store the OAuth+OIDC tokens. The oktaCallbackComponent does this for us.
@@ -67,7 +69,8 @@ const routes: Routes = [
     CheckoutComponent,
     LoginComponent,
     LoginStatusComponent,
-    MembersPageComponent
+    MembersPageComponent,
+    OrderHistoryComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

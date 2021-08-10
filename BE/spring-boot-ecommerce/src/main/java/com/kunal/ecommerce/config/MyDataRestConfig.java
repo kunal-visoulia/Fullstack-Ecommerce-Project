@@ -1,9 +1,6 @@
 package com.kunal.ecommerce.config;
 
-import com.kunal.ecommerce.entity.Country;
-import com.kunal.ecommerce.entity.Product;
-import com.kunal.ecommerce.entity.ProductCategory;
-import com.kunal.ecommerce.entity.State;
+import com.kunal.ecommerce.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -40,6 +37,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
         disableHttpMethods(Country.class, config, theUnsupportedActions);
         disableHttpMethods(State.class, config, theUnsupportedActions);
+        disableHttpMethods(Order.class, config, theUnsupportedActions);
 
         // call an internal helper method
         exposeIds(config);
